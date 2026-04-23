@@ -1,0 +1,101 @@
+# ============================================================
+#  Unity C# — Network Project .gitignore
+# ============================================================
+
+# ──────────────────────────────────────────
+# Unity 생성 폴더
+# ──────────────────────────────────────────
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+[Mm]em[Pp]rofiler/
+
+# Asset Store 툴 캐시
+Assets/AssetStoreTools*
+
+# ──────────────────────────────────────────
+# Visual Studio / Rider / VSCode
+# ──────────────────────────────────────────
+.vs/
+.vscode/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.tmp
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# ──────────────────────────────────────────
+# Unity 자동 생성 메타/캐시
+# ──────────────────────────────────────────
+sysinfo.txt
+*.stackdump
+crashlytics-build.properties
+Assets/Plugins/Editor/JetBrains*
+
+# ──────────────────────────────────────────
+# 빌드 결과물
+# ──────────────────────────────────────────
+*.apk
+*.aab
+*.unitypackage
+*.app
+ExportedProject/
+
+# ──────────────────────────────────────────
+# OS 찌꺼기
+# ──────────────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+Thumbs.db
+Desktop.ini
+
+# ──────────────────────────────────────────
+# 네트워크 프로젝트 전용
+# ──────────────────────────────────────────
+# 서버 설정 / 환경 변수 (절대 커밋 금지)
+.env
+.env.*
+*.env
+server.config
+network.config
+secrets.json
+appsettings.Local.json
+
+# 패킷 캡처 / 로그
+*.pcap
+*.pcapng
+*.log
+*.trace
+
+# SSL / 인증서
+*.pem
+*.key
+*.crt
+*.pfx
+*.p12
+*.cer
+
+# 로컬 IP · 포트 설정 파일
+# Assets/Settings/NetworkSettings.asset  # 필요 시 주석 해제
+
+# ──────────────────────────────────────────
+# 패키지 매니저
+# ──────────────────────────────────────────
+/[Pp]ackages/
+!/[Pp]ackages/manifest.json
+!/[Pp]ackages/packages-lock.json
