@@ -48,7 +48,7 @@ public class TitleUI : MonoBehaviour
     {
         startButton.onClick.AddListener(StartButton);
         loginButton.onClick.AddListener(LoginButton);
-        guestLoginButton.onClick.AddListener(LoginButton);
+        guestLoginButton.onClick.AddListener(GuestLoginButton);
         signUpButton.onClick.AddListener(SignUpButton);
         guestButton.onClick.AddListener(GuestButton);
         loginCloseButton.onClick.AddListener(LoginCloseButton);
@@ -64,7 +64,7 @@ public class TitleUI : MonoBehaviour
     {
         startButton.onClick.RemoveListener(StartButton);
         loginButton.onClick.RemoveListener(LoginButton);
-        guestLoginButton.onClick.RemoveListener(LoginButton);
+        guestLoginButton.onClick.RemoveListener(GuestLoginButton);
         signUpButton.onClick.RemoveListener(SignUpButton);
         guestButton.onClick.RemoveListener(GuestButton);
         loginCloseButton.onClick.RemoveListener(LoginCloseButton);
@@ -93,7 +93,12 @@ public class TitleUI : MonoBehaviour
 
     public void LoginButton()
     {
-        SceneManager.LoadScene("LobbyScene");
+        BackendManager.Instance.LogIn(emailInputField.text, passwordInputField.text);
+    }
+    
+    public void GuestLoginButton()
+    {
+        BackendManager.Instance.GuestLogIn(guestNickNameInputField.text);
     }
     
     public void LoginCloseButton()
@@ -113,7 +118,7 @@ public class TitleUI : MonoBehaviour
 
     public void SignUpOkButton()
     {
-        BackendManager.Instance.SignUp(emailInputField.text, passwordInputField.text);
+        BackendManager.Instance.SignUp(signUpEmailInputField.text, signUpPasswordInputField.text, nickNameInputField.text);
     }
 
     public void SignUpSuccess()
