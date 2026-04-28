@@ -1,9 +1,12 @@
+using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleUI : MonoBehaviour
 {
+    [Header("Buttons")]
     [SerializeField] private Button startButton;
     [SerializeField] private Button loginButton;
     [SerializeField] private Button guestLoginButton;
@@ -14,10 +17,22 @@ public class TitleUI : MonoBehaviour
     [SerializeField] private Button signUpCloseButton;
     [SerializeField] private Button signUpOkButton;
     [SerializeField] private Button signUpOkCloseButton;
+    [SerializeField] private Button signUpFailCloseButton;
+    [SerializeField] private Button loginFailCloseButton;
+    [Header("GameObjects")]
     [SerializeField] private GameObject loginObject;
     [SerializeField] private GameObject signUpObject;
     [SerializeField] private GameObject nickNameObject;
     [SerializeField] private GameObject signUpOkObject;
+    [SerializeField] private GameObject signUpFailObject;
+    [SerializeField] private GameObject loginFailObject;
+    [Header("InputFields")]
+    [SerializeField] private TMP_InputField emailInputField;
+    [SerializeField] private TMP_InputField signUpEmailInputField;
+    [SerializeField] private TMP_InputField passwordInputField;
+    [SerializeField] private TMP_InputField signUpPasswordInputField;
+    [SerializeField] private TMP_InputField guestNickNameInputField;
+    [SerializeField] private TMP_InputField nickNameInputField;
 
     private void Awake()
     {
@@ -26,7 +41,10 @@ public class TitleUI : MonoBehaviour
         nickNameObject.SetActive(false);
     }
 
-    private void Start()
+    private void OnEnable() => BindButtonEvents();
+    private void OnDisable() => UnBindButtonEvents();
+
+    private void BindButtonEvents()
     {
         startButton.onClick.AddListener(StartButton);
         loginButton.onClick.AddListener(LoginButton);
@@ -37,6 +55,25 @@ public class TitleUI : MonoBehaviour
         nickNameCloseButton.onClick.AddListener(NicknameCloseButton);
         signUpCloseButton.onClick.AddListener(SignUpCloseButton);
         signUpOkButton.onClick.AddListener(SignUpOkButton);
+        signUpOkCloseButton.onClick.AddListener(SignUpOkButtonClose);
+        signUpFailCloseButton.onClick.AddListener(SignUpFailButtonClose);
+        loginFailCloseButton.onClick.AddListener(LoginFailButtonClose);
+    }
+    
+    private void UnBindButtonEvents()
+    {
+        startButton.onClick.RemoveListener(StartButton);
+        loginButton.onClick.RemoveListener(LoginButton);
+        guestLoginButton.onClick.RemoveListener(LoginButton);
+        signUpButton.onClick.RemoveListener(SignUpButton);
+        guestButton.onClick.RemoveListener(GuestButton);
+        loginCloseButton.onClick.RemoveListener(LoginCloseButton);
+        nickNameCloseButton.onClick.RemoveListener(NicknameCloseButton);
+        signUpCloseButton.onClick.RemoveListener(SignUpCloseButton);
+        signUpOkButton.onClick.RemoveListener(SignUpOkButton);
+        signUpOkCloseButton.onClick.RemoveListener(SignUpOkButtonClose);
+        signUpFailCloseButton.onClick.RemoveListener(SignUpFailButtonClose);
+        loginFailCloseButton.onClick.RemoveListener(LoginFailButtonClose);
     }
 
     public void StartButton()
@@ -56,7 +93,6 @@ public class TitleUI : MonoBehaviour
 
     public void LoginButton()
     {
-        // 게스트 / 회원가입 에 따라 유저 정보 저장
         SceneManager.LoadScene("LobbyScene");
     }
     
@@ -77,9 +113,11 @@ public class TitleUI : MonoBehaviour
 
     public void SignUpOkButton()
     {
-        // 회원가입 완료 패널? 액티브
-        // 중복 여부 체크
-        // 회원가입 정보 저장
+        BackendManager.Instance.SignUp(emailInputField.text, passwordInputField.text);
+    }
+
+    public void SignUpSuccess()
+    {
         signUpOkObject.SetActive(true);
     }
 
@@ -87,5 +125,25 @@ public class TitleUI : MonoBehaviour
     {
         signUpObject.SetActive(false);
         signUpOkObject.SetActive(false);
+    }
+
+    public void SignUpFailButtonClose()
+    {
+        signUpFailObject.SetActive(false);
+    }
+
+    public void LoginFailButtonClose()
+    {
+        loginFailObject.SetActive(false);
+    }
+
+    public void SignUpFail()
+    {
+        signUpFailObject.SetActive(true);
+    }
+
+    public void LoginFail()
+    {
+        loginFailObject.SetActive(true);
     }
 }

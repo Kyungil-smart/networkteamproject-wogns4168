@@ -1,3 +1,4 @@
+using System;
 using Firebase;
 using Firebase.Auth;
 using Firebase.Extensions;
@@ -14,6 +15,8 @@ public class BackendManager : MonoBehaviour
 
     private FirebaseAuth auth;
     public static FirebaseAuth Auth => Instance.auth;
+    
+    private TitleUI titleUi;
 
     private void Awake()
     {
@@ -50,20 +53,29 @@ public class BackendManager : MonoBehaviour
         });
     }
 
+    private void Start()
+    {
+        titleUi = FindFirstObjectByType<TitleUI>();
+    }
+
     public void SignUp(string email, string password)
     {
         Auth.CreateUserWithEmailAndPasswordAsync(email, password).ContinueWithOnMainThread(task =>
         {
             if (task.IsCanceled)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync was canceled.");
+                Debug.Log("CreateUserWithEmailAndPasswordAsync was canceled.");
+                titleUi.SignUpFail();
                 return;
             }
             if (task.IsFaulted)
             {
-                Debug.LogError("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                Debug.Log("CreateUserWithEmailAndPasswordAsync encountered an error: " + task.Exception);
+                titleUi.SignUpFail();
                 return;
             }
+
+            titleUi.SignUpSuccess();
 
             // Firebase user has been created.
             AuthResult result = task.Result;
