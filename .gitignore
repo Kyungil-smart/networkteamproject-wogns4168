@@ -100,3 +100,4 @@ appsettings.Local.json
 !/[Pp]ackages/manifest.json
 !/[Pp]ackages/packages-lock.json
 /NetworkMiniGame/Assets/Imports
+/NetworkMiniGame/Assets/Firebase

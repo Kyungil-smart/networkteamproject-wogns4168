@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "999484430252",
+    "project_id": "networkminigamejaehoon",
+    "storage_bucket": "networkminigamejaehoon.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999484430252:android:f8714e42f5351aae150c09",
+        "android_client_info": {
+          "package_name": "com.JaeHoon.MiniGame"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBxuBT1_aLRazrGp4jOBEwbgVy703_iIhg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
