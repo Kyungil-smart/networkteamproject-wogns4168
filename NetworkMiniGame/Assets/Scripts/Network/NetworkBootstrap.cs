@@ -58,7 +58,11 @@ public class NetworkBootstrap : MonoBehaviour
         _isCallbacksBound = false;
     }
 
-    private void StartHost()   => NetworkManager.Singleton.StartHost();
+    private void StartHost()
+    {
+        NetworkManager.Singleton.StartHost();
+    }
+        
     private void StartClient() => NetworkManager.Singleton.StartClient();
     // private void Disconnect()  => NetworkManager.Singleton.Shutdown();
 
