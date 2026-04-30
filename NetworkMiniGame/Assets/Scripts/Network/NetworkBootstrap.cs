@@ -75,7 +75,7 @@ public class NetworkBootstrap : MonoBehaviour
         try
         {
             BackendManager.Instance.JoinCode = await RelayNetworkService.Instance.StartHostWithRelayAsync();
-            SceneManager.LoadScene("RoomScene");
+            NetworkManager.Singleton.SceneManager.LoadScene("RoomScene", LoadSceneMode.Single);
         }
         catch (Exception e)
         {
@@ -91,11 +91,13 @@ public class NetworkBootstrap : MonoBehaviour
 
         try
         {
+            BackendManager.Instance.JoinCode = joinCode;
+            
             await RelayNetworkService.Instance.StartClientWithRelayAsync(joinCode);
-            SceneManager.LoadScene("RoomScene");
         }
         catch (Exception e)
         {
+            BackendManager.Instance.JoinCode = string.Empty;
             Debug.LogError($"[Bootstrap] Client 접속 오류: {e.Message}");
         }
     }
