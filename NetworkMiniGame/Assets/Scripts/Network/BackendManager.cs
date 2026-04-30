@@ -18,6 +18,7 @@ public class BackendManager : MonoBehaviour
     public static FirebaseAuth Auth => Instance.auth;
 
     private TitleUI titleUi;
+    public string JoinCode;
 
     private void Awake()
     {

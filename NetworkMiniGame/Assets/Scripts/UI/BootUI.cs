@@ -12,10 +12,18 @@ public class BootUI : MonoBehaviour
     private float loadingTime;
     private string loadText;
     private float textTime;
+    
+    AuthService authService;
 
-    private void Start()
+    private void Awake()
     {
         loadingSlider.value = 0;
+        authService = FindFirstObjectByType<AuthService>();
+    }
+
+    private async void Start()
+    {
+        await authService.InitializeAsync();
     }
 
     private void Update()

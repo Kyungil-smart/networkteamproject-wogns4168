@@ -1,12 +1,19 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Unity.Netcode;
+using UnityEngine.SceneManagement;
 
 public class NetworkBootstrap : MonoBehaviour
 {
     [SerializeField] private Button _startHostButton;
     [SerializeField] private Button _startClientButton;
-    // [SerializeField] private Button _disconnectButton;
+    [SerializeField] private Button _startClientPopupButton;
+    [SerializeField] private Button _startClientPopupExitButton;
+    [SerializeField] private TMP_InputField _joinCodeInputField;
+    [SerializeField] private GameObject _joinCodePopup;
+    
 
     private bool _isCallbacksBound;
 
@@ -22,18 +29,22 @@ public class NetworkBootstrap : MonoBehaviour
         UnbindButtonEvents();
     }
 
+    // Copy 버튼 이벤트 바인딩 추가, Host/Client 핸들러가 async 버전으로 변경됨
     private void BindButtonEvents()
     {
-        _startHostButton.onClick.AddListener(StartHost);
-        _startClientButton.onClick.AddListener(StartClient);
-        // _disconnectButton.onClick.AddListener(Disconnect);
+        _startHostButton.onClick.AddListener(OnStartHostClicked);
+        _startClientButton.onClick.AddListener(OnStartClientClicked);
+        _startClientPopupButton.onClick.AddListener(OnStartClientPopupClicked);
+        _startClientPopupExitButton.onClick.AddListener(OnStartClientPopupExitClicked);
     }
 
+    // Copy 버튼 이벤트 해제 추가
     private void UnbindButtonEvents()
     {
-        _startHostButton.onClick.RemoveListener(StartHost);
-        _startClientButton.onClick.RemoveListener(StartClient);
-        // _disconnectButton.onClick.RemoveListener(Disconnect);
+        _startHostButton.onClick.RemoveListener(OnStartHostClicked);
+        _startClientButton.onClick.RemoveListener(OnStartClientClicked);
+        _startClientPopupButton.onClick.RemoveListener(OnStartClientPopupClicked);
+        _startClientPopupExitButton.onClick.RemoveListener(OnStartClientPopupExitClicked);
     }
 
     private void BindNetworkCallbacks()
@@ -42,7 +53,7 @@ public class NetworkBootstrap : MonoBehaviour
         if (NetworkManager.Singleton == null) return;
 
         NetworkManager.Singleton.OnClientConnectedCallback  += OnClientConnected;
-        // NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
+        NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
         NetworkManager.Singleton.OnServerStarted            += OnServerStarted;
         _isCallbacksBound = true;
     }
@@ -53,20 +64,53 @@ public class NetworkBootstrap : MonoBehaviour
         if (NetworkManager.Singleton == null) return;
 
         NetworkManager.Singleton.OnClientConnectedCallback  -= OnClientConnected;
-        // NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
+        NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
         NetworkManager.Singleton.OnServerStarted            -= OnServerStarted;
         _isCallbacksBound = false;
     }
 
-    private void StartHost()
+    // Relay 연동으로 변경: StartHost 직접 호출 대신 Relay Allocation 생성 후 Join Code 를 InputField 에 표시
+    private async void OnStartHostClicked()
     {
-        NetworkManager.Singleton.StartHost();
+        try
+        {
+            BackendManager.Instance.JoinCode = await RelayNetworkService.Instance.StartHostWithRelayAsync();
+            SceneManager.LoadScene("RoomScene");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[Bootstrap] Host 시작 오류: {e.Message}");
+        }
     }
-        
-    private void StartClient() => NetworkManager.Singleton.StartClient();
-    // private void Disconnect()  => NetworkManager.Singleton.Shutdown();
+
+    // Relay 연동으로 변경: InputField 의 Join Code 를 읽어 Relay 에 접속
+    private async void OnStartClientClicked()
+    {
+        string joinCode = _joinCodeInputField.text.Trim();
+        if (string.IsNullOrEmpty(joinCode)) return;
+
+        try
+        {
+            await RelayNetworkService.Instance.StartClientWithRelayAsync(joinCode);
+            SceneManager.LoadScene("RoomScene");
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[Bootstrap] Client 접속 오류: {e.Message}");
+        }
+    }
+
+    private void OnStartClientPopupClicked()
+    {
+        _joinCodePopup.SetActive(true);
+    }
+
+    private void OnStartClientPopupExitClicked()
+    {
+        _joinCodePopup.SetActive(false);
+    }
 
     private void OnClientConnected(ulong clientId)  => Debug.Log($"<color=green>[Network] 접속: {clientId}</color>");
-    // private void OnClientDisconnect(ulong clientId) => Debug.Log($"<color=red>[Network] 해제: {clientId}</color>");
+    private void OnClientDisconnect(ulong clientId) => Debug.Log($"<color=red>[Network] 해제: {clientId}</color>");
     private void OnServerStarted()                  => Debug.Log("<color=green>[Network] 서버 시작</color>");
 }
