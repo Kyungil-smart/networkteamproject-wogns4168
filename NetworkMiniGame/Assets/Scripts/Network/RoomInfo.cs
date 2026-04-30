@@ -53,10 +53,14 @@ public class RoomInfo : NetworkBehaviour
     {
         IsReady.Value = !IsReady.Value;
         
-        if (IsServer)
+        if (IsServer) 
         {
             var roomUI = FindFirstObjectByType<RoomUI>();
-            if (roomUI != null) roomUI.UpdateSlot(this);
+            if (roomUI != null) 
+            {
+                roomUI.UpdateSlot(this);
+                roomUI.StartButtonActive(); // 여기서도 직접 버튼 체크 실행
+            }
         }
     }
     

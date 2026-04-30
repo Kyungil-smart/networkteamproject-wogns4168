@@ -78,12 +78,17 @@ public class RoomUI : MonoBehaviour
     {
         player.PlayerIndex.OnValueChanged += (prev, current) => UpdateSlot(player);
         player.PlayerName.OnValueChanged += (prev, current) => UpdateSlot(player);
-        player.IsReady.OnValueChanged += (prev, current) => UpdateSlot(player);
+        player.IsReady.OnValueChanged += (prev, current) => 
+        {
+            UpdateSlot(player);
+            StartButtonActive(); 
+        };
         
         player.OnDestroyInstance += () => ClearSlot(player.PlayerIndex.Value);
 
         // 처음 생성되었을 때 한 번 실행
         UpdateSlot(player);
+        StartButtonActive(); 
     }
     
     public void UpdateSlot(RoomInfo player)
@@ -104,9 +109,11 @@ public class RoomUI : MonoBehaviour
         {
             localPlayer.ToggleReadyServerRpc();
         }
+
+        StartButtonActive();
     }
 
-    public void OnStartButtonClicked()
+    private void OnStartButtonClicked()
     {
         NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
@@ -118,5 +125,32 @@ public class RoomUI : MonoBehaviour
         _nickNames[index].text = "Empty";
         _nickNames[index].gameObject.SetActive(false);
         if (index < _readys.Count) _readys[index].SetActive(false);
+    }
+
+    public void StartButtonActive()
+    {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            _startButtonObject.SetActive(false);
+            return;
+        }
+
+        RoomInfo[] players = FindObjectsByType<RoomInfo>(FindObjectsSortMode.None);
+        
+        if (players.Length < 2)
+        {
+            _startButtonObject.SetActive(false);
+            return;
+        }
+        bool isAllReady = true;
+        foreach (var player in players)
+        {
+            if (!player.IsReady.Value)
+            {
+                isAllReady = false;
+                break;
+            }
+        }
+        _startButtonObject.SetActive(isAllReady);
     }
 }
