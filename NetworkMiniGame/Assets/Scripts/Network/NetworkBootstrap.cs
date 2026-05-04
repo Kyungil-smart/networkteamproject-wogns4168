@@ -16,6 +16,12 @@ public class NetworkBootstrap : MonoBehaviour
     
 
     private bool _isCallbacksBound;
+    private LobbyUI _lobbyUI;
+
+    private void Start()
+    {
+        _lobbyUI = FindFirstObjectByType<LobbyUI>();
+    }
 
     private void OnEnable()
     {
@@ -55,6 +61,11 @@ public class NetworkBootstrap : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback  += OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback += OnClientDisconnect;
         NetworkManager.Singleton.OnServerStarted            += OnServerStarted;
+        NetworkManager.Singleton.ConnectionApprovalCallback = (req, res) =>
+        {
+            res.Approved = true;
+            res.CreatePlayerObject = false;
+        };
         _isCallbacksBound = true;
     }
 
@@ -105,11 +116,13 @@ public class NetworkBootstrap : MonoBehaviour
     private void OnStartClientPopupClicked()
     {
         _joinCodePopup.SetActive(true);
+        _lobbyUI.SetLobbyCharacterVisible(false);
     }
 
     private void OnStartClientPopupExitClicked()
     {
         _joinCodePopup.SetActive(false);
+        _lobbyUI.SetLobbyCharacterVisible(true);
     }
 
     private void OnClientConnected(ulong clientId)  => Debug.Log($"<color=green>[Network] 접속: {clientId}</color>");

@@ -11,6 +11,9 @@ public class RoomInfo : NetworkBehaviour
     public NetworkVariable<int> PlayerIndex = new NetworkVariable<int>(0);
     public NetworkVariable<bool> IsReady = new NetworkVariable<bool>(false);
     
+    public NetworkVariable<int> CharacterIndex = new NetworkVariable<int>(
+        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    
     public System.Action OnDestroyInstance;
 
     public override void OnNetworkSpawn()
@@ -26,6 +29,11 @@ public class RoomInfo : NetworkBehaviour
         if (IsOwner && !IsServer)
         {
             SetNicknameServerRpc(GetAuthDisplayName());
+        }
+        
+        if (IsOwner)
+        {
+            SetCharacterIndexServerRpc(CharacterSelectData.Instance.LocalCharacterIndex);
         }
         
         DelayedRegister();
@@ -62,6 +70,12 @@ public class RoomInfo : NetworkBehaviour
                 roomUI.StartButtonActive(); // 여기서도 직접 버튼 체크 실행
             }
         }
+    }
+    
+    [ServerRpc]
+    private void SetCharacterIndexServerRpc(int index)
+    {
+        CharacterIndex.Value = index;
     }
     
     private int GetAvailableIndex()

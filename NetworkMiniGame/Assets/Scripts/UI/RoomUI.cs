@@ -18,7 +18,6 @@ public class RoomUI : MonoBehaviour
     
     [SerializeField] private List<TextMeshProUGUI> _nickNames;
     [SerializeField] private List<GameObject> _readys;
-    [SerializeField] private List<GameObject> _playerPrefabPositions;
 
     private string joinCode;
     private Vector2 playerPrefabSize = new Vector2(3, 3);
