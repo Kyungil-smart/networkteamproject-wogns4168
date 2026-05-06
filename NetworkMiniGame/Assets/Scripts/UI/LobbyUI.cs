@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -32,6 +33,9 @@ public class LobbyUI : MonoBehaviour
     
     private void Start()
     {
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+            NetworkManager.Singleton.Shutdown();
+        
         // 닉네임 표시
         nickNameText.text = BackendManager.Auth.CurrentUser?.DisplayName ?? "Guest";
 
@@ -42,8 +46,11 @@ public class LobbyUI : MonoBehaviour
             selectButtons[i].onClick.AddListener(() => OnCharacterSelected(index));
         }
 
-        // 기본 캐릭터 0번 생성
-        SpawnLobbyCharacter(0);
+        // 세이브캐릭터 생성 없을 시 기본 캐릭터 0번 생성
+        int savedIndex = CharacterSelectData.Instance != null 
+            ? CharacterSelectData.Instance.LocalCharacterIndex 
+            : 0;
+        SpawnLobbyCharacter(savedIndex);
     }
 
     private void OnEnable()  => BindButtons();

@@ -20,7 +20,6 @@ public class RoomUI : MonoBehaviour
     [SerializeField] private List<GameObject> _readys;
 
     private string joinCode;
-    private Vector2 playerPrefabSize = new Vector2(3, 3);
 
     private void Start()
     {
@@ -55,8 +54,15 @@ public class RoomUI : MonoBehaviour
 
     private void OnDisconnectClicked()
     {
-        NetworkManager.Singleton.Shutdown();
-        NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+        if (NetworkManager.Singleton.IsServer)
+        {
+            NetworkManager.Singleton.SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+        }
+        else
+        {
+            NetworkManager.Singleton.Shutdown();
+            SceneManager.LoadScene("LobbyScene", LoadSceneMode.Single);
+        }
     }
 
     private void OnCopyClicked() => GUIUtility.systemCopyBuffer = joinCode;
@@ -82,8 +88,6 @@ public class RoomUI : MonoBehaviour
             UpdateSlot(player);
             StartButtonActive(); 
         };
-        
-        player.OnDestroyInstance += () => ClearSlot(player.PlayerIndex.Value);
 
         // 처음 생성되었을 때 한 번 실행
         UpdateSlot(player);
@@ -94,6 +98,8 @@ public class RoomUI : MonoBehaviour
     {
         int index = player.PlayerIndex.Value;
         if (index < 0) return;
+        
+        _nickNames[index].gameObject.SetActive(true);
         _nickNames[index].text = player.PlayerName.Value.ToString();
         if (index < _readys.Count)
         {
@@ -120,13 +126,17 @@ public class RoomUI : MonoBehaviour
         NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
     }
     
-    private void ClearSlot(int index)
+    public void ClearSlot(int index)
     {
         if (index < 0 || index >= _nickNames.Count) return;
         
+        if (_nickNames[index] == null) return;
+        
         _nickNames[index].text = "Empty";
-        _nickNames[index].gameObject.SetActive(false);
+        
         if (index < _readys.Count) _readys[index].SetActive(false);
+        
+        Invoke(nameof(StartButtonActive), 0.1f);
     }
 
     public void StartButtonActive()

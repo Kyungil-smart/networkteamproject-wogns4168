@@ -13,8 +13,6 @@ public class RoomInfo : NetworkBehaviour
     
     public NetworkVariable<int> CharacterIndex = new NetworkVariable<int>(
         0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    
-    public System.Action OnDestroyInstance;
 
     public override void OnNetworkSpawn()
     {
@@ -38,12 +36,16 @@ public class RoomInfo : NetworkBehaviour
         
         DelayedRegister();
     }
-    
-    private void OnDestroy() 
+
+    public override void OnNetworkDespawn()
     {
-        OnDestroyInstance?.Invoke(); 
+        var roomUI = FindFirstObjectByType<RoomUI>();
+        if (roomUI != null)
+        {
+            roomUI.ClearSlot(PlayerIndex.Value);
+        }
     }
-    
+
     [ServerRpc]
     private void SetNicknameServerRpc(string name)
     {

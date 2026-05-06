@@ -27,7 +27,12 @@ public class RelayNetworkService : MonoBehaviour
             RelayServerData serverData = AllocationUtils.ToRelayServerData(allocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(serverData);
             
-            // NetworkManager.Singleton.NetworkConfig.PlayerPrefab = null;
+            NetworkManager.Singleton.ConnectionApprovalCallback = (req, res) =>
+            {
+                res.Approved = true;
+                res.CreatePlayerObject = true;
+                // res.CreatePlayerObject = false;
+            };
 
             // Host 시작
             NetworkManager.Singleton.StartHost();
