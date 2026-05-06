@@ -94,6 +94,15 @@ public class PlayerSpawner : MonoBehaviour
 
         GameObject player = Instantiate(_gamePrefabs[charIdx], setting.point.position, setting.point.rotation);
         player.transform.localScale = setting.scale;
+        
+        if (player.TryGetComponent<CharacterScaleSync>(out var scaleSync))
+        {
+            scaleSync.TargetScale.Value = setting.scale;
+        }
+        else
+        {
+            player.transform.localScale = setting.scale;
+        }
 
         var netObj = player.GetComponent<NetworkObject>();
 

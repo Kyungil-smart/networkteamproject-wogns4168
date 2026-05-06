@@ -11090,6 +11090,7 @@ GameObject:
   - component: {fileID: 8054116573328867444}
   - component: {fileID: 5487059060366676925}
   - component: {fileID: -2678942999776765224}
+  - component: {fileID: 8209816533815186181}
   m_Layer: 0
   m_Name: SPUM_20240910230619938
   m_TagString: Player
@@ -11218,6 +11219,24 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
+--- !u!114 &8209816533815186181
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4634692442350905687}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddb287895bfde694887e608593a7d4c6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterScaleSync
+  ShowTopMostFoldoutHeaderGroup: 1
+  TargetScale:
+    UpdateTraits:
+      MinSecondsBetweenUpdates: 0
+      MaxSecondsBetweenUpdates: 0
+    m_InternalValue: {x: 1, y: 1, z: 1}
 --- !u!1 &4654990151100878381
 GameObject:
   m_ObjectHideFlags: 0

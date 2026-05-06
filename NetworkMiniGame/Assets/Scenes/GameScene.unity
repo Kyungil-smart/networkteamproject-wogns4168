@@ -411,13 +411,13 @@ MonoBehaviour:
   - {fileID: 3413561086114665222, guid: 2359817e845c8534a92ea33b04266486, type: 3}
   _spawnSettings:
   - point: {fileID: 1685512301}
-    scale: {x: 5, y: 5, z: 1}
+    scale: {x: 2, y: 2, z: 1}
   - point: {fileID: 145306684}
-    scale: {x: 5, y: 5, z: 1}
+    scale: {x: 2, y: 2, z: 1}
   - point: {fileID: 1747721948}
-    scale: {x: 5, y: 5, z: 1}
+    scale: {x: 2, y: 2, z: 1}
   - point: {fileID: 1641980375}
-    scale: {x: 5, y: 5, z: 1}
+    scale: {x: 2, y: 2, z: 1}
   _isRoomScene: 0
 --- !u!4 &8302060593117524378
 Transform:
