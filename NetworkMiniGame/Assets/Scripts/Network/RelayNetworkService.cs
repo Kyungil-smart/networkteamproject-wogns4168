@@ -26,6 +26,8 @@ public class RelayNetworkService : MonoBehaviour
             // UnityTransport 에 Relay 서버 정보 주입
             RelayServerData serverData = AllocationUtils.ToRelayServerData(allocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(serverData);
+            
+            // NetworkManager.Singleton.NetworkConfig.PlayerPrefab = null;
 
             // Host 시작
             NetworkManager.Singleton.StartHost();
@@ -48,6 +50,8 @@ public class RelayNetworkService : MonoBehaviour
             // UnityTransport 에 Relay 서버 정보 주입
             RelayServerData serverData = AllocationUtils.ToRelayServerData(joinAllocation, "dtls");
             NetworkManager.Singleton.GetComponent<UnityTransport>().SetRelayServerData(serverData);
+            
+            // NetworkManager.Singleton.NetworkConfig.PlayerPrefab = null;
 
             // Client 시작
             NetworkManager.Singleton.StartClient();

@@ -64,7 +64,8 @@ public class NetworkBootstrap : MonoBehaviour
         NetworkManager.Singleton.ConnectionApprovalCallback = (req, res) =>
         {
             res.Approved = true;
-            res.CreatePlayerObject = false;
+            res.CreatePlayerObject = true;
+            // res.CreatePlayerObject = false;
         };
         _isCallbacksBound = true;
     }
@@ -77,6 +78,7 @@ public class NetworkBootstrap : MonoBehaviour
         NetworkManager.Singleton.OnClientConnectedCallback  -= OnClientConnected;
         NetworkManager.Singleton.OnClientDisconnectCallback -= OnClientDisconnect;
         NetworkManager.Singleton.OnServerStarted            -= OnServerStarted;
+        NetworkManager.Singleton.ConnectionApprovalCallback =  null;
         _isCallbacksBound = false;
     }
 

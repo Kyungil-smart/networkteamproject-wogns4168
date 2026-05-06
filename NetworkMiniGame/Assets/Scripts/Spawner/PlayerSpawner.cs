@@ -17,6 +17,9 @@ public class PlayerSpawner : MonoBehaviour
 
     [Header("스폰 세팅 (0~3번 슬롯)")]
     [SerializeField] private SpawnSetting[] _spawnSettings;
+    
+    [Header("true = 룸씬 / false = 게임씬")]
+    [SerializeField] private bool _isRoomScene = false;
 
     private void Start()
     {
@@ -46,8 +49,18 @@ public class PlayerSpawner : MonoBehaviour
             );
             player.transform.localScale = setting.scale;
 
-            player.GetComponent<NetworkObject>()
-                .SpawnAsPlayerObject(info.OwnerClientId, destroyWithScene: true);
+            var netObj = player.GetComponent<NetworkObject>();
+
+            if (_isRoomScene)
+            {
+                // 룸씬: 일반 스폰 (PlayerObject 교체 안 함)
+                netObj.Spawn(destroyWithScene: true);
+            }
+            else
+            {
+                // 게임씬: PlayerObject로 스폰
+                netObj.SpawnAsPlayerObject(info.OwnerClientId, destroyWithScene: true);
+            }
         }
     }
 }

@@ -192,6 +192,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa2fb271a09d7ed419cdf3328c96bcd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BackendManager
+  JoinCode: 
 --- !u!4 &33000856
 Transform:
   m_ObjectHideFlags: 0

@@ -103,12 +103,15 @@ public class RoomUI : MonoBehaviour
     
     public void OnReadyButtonClicked()
     {
-        var localPlayer = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<RoomInfo>();
-        if (localPlayer != null)
+        RoomInfo[] allInfos = FindObjectsByType<RoomInfo>(FindObjectsSortMode.None);
+        foreach (var info in allInfos)
         {
-            localPlayer.ToggleReadyServerRpc();
+            if (info.IsOwner)
+            {
+                info.ToggleReadyServerRpc();
+                break;
+            }
         }
-
         StartButtonActive();
     }
 

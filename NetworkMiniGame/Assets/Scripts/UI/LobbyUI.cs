@@ -26,6 +26,7 @@ public class LobbyUI : MonoBehaviour
     [SerializeField] private GameObject characterSpawnPoint;
     [SerializeField] private List<Button> selectButtons = new List<Button>();
     [SerializeField] private List<GameObject> characterPrefabs = new List<GameObject>();
+    [SerializeField] private Vector3 characterScale;
     
     private GameObject _currentCharacter;
     
@@ -84,6 +85,7 @@ public class LobbyUI : MonoBehaviour
             characterSpawnPoint.transform.position,
             characterSpawnPoint.transform.rotation
         );
+        _currentCharacter.transform.localScale = characterScale;
     }
 
     // ───── 팝업 오픈/클로즈 ─────

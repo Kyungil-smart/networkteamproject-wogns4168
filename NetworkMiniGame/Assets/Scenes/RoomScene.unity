@@ -739,14 +739,15 @@ MonoBehaviour:
   - {fileID: 5714133290445974923, guid: e98001fa44dd29541af410b3b3fb634f, type: 3}
   - {fileID: 3413561086114665222, guid: 2359817e845c8534a92ea33b04266486, type: 3}
   _spawnSettings:
-  - point: {fileID: 1886253222011735404}
-    scale: {x: 1, y: 1, z: 1}
-  - point: {fileID: 1439901469}
-    scale: {x: 1, y: 1, z: 1}
-  - point: {fileID: 1811001083}
-    scale: {x: 1, y: 1, z: 1}
-  - point: {fileID: 839601512}
-    scale: {x: 1, y: 1, z: 1}
+  - point: {fileID: 1925341228}
+    scale: {x: 5, y: 5, z: 1}
+  - point: {fileID: 1359278579}
+    scale: {x: 5, y: 5, z: 1}
+  - point: {fileID: 1996460932}
+    scale: {x: 5, y: 5, z: 1}
+  - point: {fileID: 1923305819}
+    scale: {x: 5, y: 5, z: 1}
+  _isRoomScene: 1
 --- !u!4 &786776964
 Transform:
   m_ObjectHideFlags: 0
@@ -1864,7 +1865,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -140.92}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1402840993
@@ -2875,7 +2876,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -140.92}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1925341227
@@ -2910,7 +2911,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -140.92}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1960136978
@@ -3080,7 +3081,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: -140.92}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2101572809

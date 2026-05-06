@@ -16554,7 +16554,7 @@ GameObject:
   - component: {fileID: 8173031030892787947}
   - component: {fileID: 7768737377402732736}
   - component: {fileID: 7430404125904071047}
-  - component: {fileID: 3378803682086568016}
+  - component: {fileID: 6147972913218657572}
   m_Layer: 0
   m_Name: SPUM_20240910230620483
   m_TagString: Player
@@ -16658,7 +16658,7 @@ MonoBehaviour:
   _charMS: 10
   _goalPos: {x: 0, y: 0, z: 0}
   isAction: 0
---- !u!114 &3378803682086568016
+--- !u!114 &6147972913218657572
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -16670,7 +16670,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Unity.Netcode.Runtime::Unity.Netcode.NetworkObject
-  GlobalObjectIdHash: 0
+  GlobalObjectIdHash: 1013684227
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
