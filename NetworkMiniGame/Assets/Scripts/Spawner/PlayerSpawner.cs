@@ -11,6 +11,7 @@ public class PlayerSpawner : MonoBehaviour
     {
         public Transform point;
         public Vector3 scale;
+        public bool reverceRotation;
     }
 
     [Header("캐릭터 게임 프리펩 (인덱스 순서대로)")]
@@ -94,6 +95,15 @@ public class PlayerSpawner : MonoBehaviour
 
         GameObject player = Instantiate(_gamePrefabs[charIdx], setting.point.position, setting.point.rotation);
         player.transform.localScale = setting.scale;
+        
+        if (setting.reverceRotation)
+        {
+            player.transform.rotation = Quaternion.Euler(
+                setting.point.rotation.eulerAngles.x,
+                setting.point.rotation.eulerAngles.y + 180f,
+                setting.point.rotation.eulerAngles.z
+            );
+        }
         
         if (player.TryGetComponent<CharacterScaleSync>(out var scaleSync))
         {
