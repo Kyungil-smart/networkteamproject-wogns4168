@@ -18,7 +18,7 @@ EditorBuildSettings:
     path: Assets/Scenes/RoomScene.unity
     guid: 70a1412315afa5942a0c7aabc0a9237d
   - enabled: 1
-    path: Assets/Scenes/GameScene.unity
+    path: Assets/Scenes/GameScene(Aim).unity
     guid: 051c75505289eef42b1fc1ba12843a55
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: 4a76e81d2bca1ea4b83dc4ee891c3e72, type: 2}

@@ -123,7 +123,7 @@ public class RoomUI : MonoBehaviour
 
     private void OnStartButtonClicked()
     {
-        NetworkManager.Singleton.SceneManager.LoadScene("GameScene", LoadSceneMode.Single);
+        NetworkManager.Singleton.SceneManager.LoadScene("GameScene(Aim)", LoadSceneMode.Single);
     }
     
     public void ClearSlot(int index)
