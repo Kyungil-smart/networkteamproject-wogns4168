@@ -47,6 +47,11 @@ public class TimeManager : NetworkBehaviour
         if (!IsServer) return;
         _isRunning = false;
     }
+
+    public float GetTime()
+    {
+        return TimeRemaining.Value;
+    }
     
     [Rpc(SendTo.Everyone)]
     private void NotifyTimeUpClientRpc()

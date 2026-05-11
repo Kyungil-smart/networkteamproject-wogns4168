@@ -1,90 +1,42 @@
-using Unity.Netcode;
+using System;
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
-public class AimUI : NetworkBehaviour
+public class AimUI : MonoBehaviour
 {
-    [Header("플레이어 이름 표시 텍스트")]
-    [SerializeField] private TextMeshPro _nameText;
+    [SerializeField] private TextMeshProUGUI time;
+    [SerializeField] private TextMeshProUGUI score;
+    [SerializeField] private Image backGround;
+    [SerializeField] private Button startButton;
 
-    [Header("초당 획득 점수 (캐쳐가 러너와 겹칠 때)")]
-    [SerializeField] private float _scorePerSecond = 10f;
-
-    [Header("플레이어 인덱스별 색상 (0~3)")]
-    [SerializeField] private Color[] _playerColors =
+    private void Awake()
     {
-        Color.red,
-        new Color(1f, 0.5f, 0f),
-        Color.yellow,
-        Color.green
-    };
-    
-    public NetworkVariable<bool> IsCatcher = new NetworkVariable<bool>(
-        false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
-    
-    public NetworkVariable<int> PlayerIdx = new NetworkVariable<int>(
-        0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+        backGround.gameObject.SetActive(true);
+        Time.timeScale = 0f;
+    }
 
-    private Camera _cam;
-
-    public override void OnNetworkSpawn()
+    private void OnEnable()
     {
-        _cam = Camera.main;
-        
-        PlayerIdx.OnValueChanged += (_, _) => ApplyColor();
-        ApplyColor();
+        startButton.onClick.AddListener(StartGame);
     }
 
     private void Update()
     {
-        if (!IsOwner) return;
-
-        Vector3 mousePos = _cam.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = 0f;
-        transform.position = mousePos;
-    }
-    
-    [ServerRpc(RequireOwnership = false)]
-    public void InitServerRpc(int playerIndex, bool isCatcher)
-    {
-        PlayerIdx.Value  = playerIndex;
-        IsCatcher.Value  = isCatcher;
-
-        // 닉네임 찾아서 모든 클라이언트에 표시
-        RoomInfo[] players = FindObjectsByType<RoomInfo>(FindObjectsSortMode.None);
-        foreach (var p in players)
-        {
-            if (p.PlayerIndex.Value == playerIndex)
-            {
-                SetNameClientRpc(p.PlayerName.Value.ToString());
-                break;
-            }
-        }
+        time.text = TimeManager.Instance.GetTime().ToString("F2");
+        score.text = ScoreManager.Instance.GetGameScore(TurnManager.Instance.CurrentCatcherId.Value).ToString("F2");
     }
 
-    [Rpc(SendTo.Everyone)]
-    private void SetNameClientRpc(string playerName)
+    private void OnDisable()
     {
-        if (_nameText != null) _nameText.text = playerName;
+        startButton.onClick.RemoveListener(StartGame);
     }
-    
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        if (!IsServer || !IsCatcher.Value) return;
 
-        if (other.TryGetComponent<AimUI>(out var otherAim) && !otherAim.IsCatcher.Value)
-        {
-            // int → float으로 변경 (정밀도 유지)
-            ScoreManager.Instance.AddGameScore(OwnerClientId, _scorePerSecond * Time.deltaTime);
-        }
-    }
-    
-    private void ApplyColor()
+    public void StartGame()
     {
-        if (PlayerIdx.Value < 0 || PlayerIdx.Value >= _playerColors.Length) return;
-
-        Color color = _playerColors[PlayerIdx.Value];
-        foreach (var sr in GetComponentsInChildren<SpriteRenderer>())
-            sr.color = color;
+        Time.timeScale = 1f;
+        startButton.gameObject.SetActive(false);
+        backGround.gameObject.SetActive(false);
+        TurnManager.Instance.StartGame();
     }
 }

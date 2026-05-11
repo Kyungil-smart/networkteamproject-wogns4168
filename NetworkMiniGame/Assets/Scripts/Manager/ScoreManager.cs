@@ -8,7 +8,7 @@ public class ScoreManager : MonoBehaviour
     
     private Dictionary<ulong, float> _gameScores  = new Dictionary<ulong, float>();
     
-    private Dictionary<ulong, int>   _totalScores = new Dictionary<ulong, int>();
+    private Dictionary<ulong, int> _totalScores = new Dictionary<ulong, int>();
     
     private static readonly int[] RankPoints = { 4, 3, 2, 1 };
 

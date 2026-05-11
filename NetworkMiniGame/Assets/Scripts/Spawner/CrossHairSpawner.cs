@@ -45,8 +45,8 @@ public class CrossHairSpawner : NetworkBehaviour
             
             netObj.SpawnAsPlayerObject(player.OwnerClientId, destroyWithScene: true);
             
-            var aimUI = obj.GetComponent<AimUI>();
-            aimUI.InitServerRpc(player.PlayerIndex.Value, isCatcher);
+            var crossHairMove = obj.GetComponent<CrossHairMove>();
+            crossHairMove.InitServerRpc(player.PlayerIndex.Value, isCatcher);
 
             _spawnedCrossHairs.Add(netObj);
         }

@@ -3,12 +3,6 @@ using Unity.Netcode;
 using UnityEngine;
 using System;
 
-/// <summary>
-/// 에임전쟁의 턴(라운드)을 관리하는 씬 전용 매니저.
-/// 플레이어 수만큼 라운드를 진행하며 매 라운드마다 Catcher가 바뀜.
-/// NetworkBehaviour → 서버가 턴을 제어하고 클라이언트에게 동기화.
-/// DontDestroyOnLoad 없음 → 씬마다 새로 생성됨.
-/// </summary>
 public class TurnManager : NetworkBehaviour
 {
     public static TurnManager Instance { get; private set; }
